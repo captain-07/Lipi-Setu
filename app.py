@@ -156,3 +156,71 @@ def analyze_document(image_bytes: bytes, mime_type: str) -> DocumentAnalysis:
 
     log.error("analyze_document failed: %s", last_error)
     raise AnalysisError("Could not analyze this document. Check your connection or try a clearer photo.")
+
+# ================= STEP 3: Audio + PDF =================
+class AudioError(Exception):
+    pass
+
+
+def _clean_for_speech(text: str) -> str:
+    text = re.sub(r"[*_#`>\-]{1,}", " ", text)          # stray markdown
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def synthesize_bengali(text: str) -> bytes:
+    """Return MP3 bytes. Raises AudioError so the UI can degrade to text-only."""
+    text = _clean_for_speech(text)[:MAX_TTS_CHARS]
+    if not text:
+        raise AudioError("No text to read aloud.")
+    try:
+        buf = io.BytesIO()
+        gTTS(text=text, lang="bn", slow=False).write_to_fp(buf)   # in-memory, nothing hits disk
+        return buf.getvalue()
+    except Exception as e:                                        # gTTS needs internet; wraps HTTP errors
+        log.exception("gTTS failed")
+        raise AudioError("Audio is unavailable right now (check your internet connection).") from e
+
+
+_PDF_REPLACEMENTS = {
+    "\u2018": "'", "\u2019": "'", "\u201c": '"', "\u201d": '"',
+    "\u2013": "-", "\u2014": "-", "\u2026": "...", "\u20b9": "Rs. ", "\u00a0": " ", "\u2022": "-",
+}
+
+
+def _pdf_safe(text: str) -> str:
+    """Core PDF fonts are Latin-1 only. Map common symbols, drop anything else."""
+    for src, dst in _PDF_REPLACEMENTS.items():
+        text = text.replace(src, dst)
+    return text.encode("latin-1", "replace").decode("latin-1")
+
+
+class _LetterPDF(FPDF):
+    def footer(self) -> None:
+        self.set_y(-15)
+        self.set_font("Helvetica", "I", 8)
+        self.set_text_color(120, 120, 120)
+        self.cell(0, 8, f"Draft prepared with LipiSetu AI - please review before sending. Page {self.page_no()}",
+                  align="C")
+
+
+def build_reply_pdf(analysis: DocumentAnalysis) -> bytes:
+    pdf = _LetterPDF(format="A4")
+    pdf.set_margins(25, 25, 25)
+    pdf.set_auto_page_break(auto=True, margin=20)
+    pdf.set_title(_pdf_safe(f"Reply - {analysis.document_type}"))
+    pdf.set_author("LipiSetu AI")
+    pdf.add_page()
+
+    pdf.set_font("Helvetica", size=11)
+    pdf.cell(0, 6, date.today().strftime("%d %B %Y"), align="R", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.ln(8)
+
+    pdf.set_font("Helvetica", "B", 11)
+    pdf.multi_cell(0, 6, _pdf_safe(f"Subject: Reply regarding {analysis.document_type}"),
+                   new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.ln(4)
+
+    pdf.set_font("Helvetica", size=11)
+    pdf.multi_cell(0, 6, _pdf_safe(analysis.official_english_reply.strip()),
+                   new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    return bytes(pdf.output())
