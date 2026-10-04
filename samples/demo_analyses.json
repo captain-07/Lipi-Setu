@@ -1,0 +1,129 @@
+{
+  "_comment": "Pre-baked DocumentAnalysis output for the offline demo mode. Keys mirror app.py's generate_sample_document() types, nested by language code. Written by hand to match what the live Gemma pipeline returns (english document_type/key_deadline, spoken-register local_summary, English reply letter with placeholders). Regenerate audio with: python scripts/generate_demo_audio.py",
+  "bank": {
+    "bn": {
+      "is_readable": true,
+      "quality_issue": null,
+      "document_type": "Bank loan recovery notice",
+      "urgency_level": "High",
+      "key_deadline": "15 October 2026",
+      "local_summary": "এটি স্টেট ব্যাংক অব সিটিজেন্স থেকে আপনার বাড়ির ঋণের জন্য পাঠানো শেষ আদায় নোটিশ। গত ২ মাসের কিস্তি বাকি আছে, মোট ৩৮,৪৫০ টাকা, যার মধ্যে দেরির জরিমানাও আছে। ১৫ অক্টোবর ২০২৬ তারিখের মধ্যে এই টাকা জমা দিতে হবে। টাকা না দিলে ব্যাংক আপনার ঋণ অন্যথায় ঘোষণা করবে এবং সারফাসি আইনের অধীনে আইনি ব্যবস্থা নেবে, সঙ্গে ক্রেডিট বিউরোতেও জানাবে। যদি গত ৪৮ ঘণ্টায় টাকা জমা হয়ে থাকে, তাহলে এই চিঠি উপেক্ষা করুন।",
+      "english_summary": "This is a final demand notice from State Bank of Citizens for an overdue home loan balance. Two monthly EMIs are unpaid, totalling Rs. 38,450 including late penalty charges. If the amount is not paid by 15 October 2026, the bank warns it will classify the loan as a Non-Performing Asset and initiate recovery under the SARFAESI Act 2002, and report the default to credit bureaus.",
+      "official_english_reply": "Dear Sir/Madam,\n\nRe: Outstanding balance in Home Loan Account No. 4092837419 — Ref. SBC/LOAN-REC/2026/0942\n\nWe acknowledge receipt of your notice regarding the overdue balance in the above loan account.\n\nWe are arranging to remit the outstanding amount of Rs. 38,450.00, inclusive of late penalty charges, and request you to confirm receipt of the same. We also request a consolidated statement of the account showing the principal, interest and penalty breakup, along with the details of any further interest accruing after the date of payment.\n\nPlease treat this letter as our formal acknowledgement and confirm that our account will not be reported as a defaulter to any credit bureau once the dues are cleared.\n\nThank you for your cooperation.\n\nYours faithfully,\n[YOUR NAME]\n[YOUR ADDRESS]\n[YOUR LOAN ACCOUNT NUMBER]\n[DATE]"
+    },
+    "hi": {
+      "is_readable": true,
+      "quality_issue": null,
+      "document_type": "Bank loan recovery notice",
+      "urgency_level": "High",
+      "key_deadline": "15 October 2026",
+      "local_summary": "यह स्टेट बैंक ऑफ सिटीज़न्स से आपके घर के बकाये के लिए भेजा गया आखिरी माँग नोटिस है। पिछले 2 महीने की EMI बकाया है, कुल 38,450 रुपये, जिसमें देरी का जुर्माना भी शामिल है। 15 अक्टूबर 2026 तक यह रकम जमा करनी होगी। रकम जमा नहीं होने पर बैंक आपके लोन को अनुत्पादक बताकर सरफेसी कानून के तहत कानूनी कार्रवाई करेगा और क्रेडिट ब्यूरो में भी रिपोर्ट करेगा। यदि पिछले 48 घंटों में भुगतान हो चुका है तो इस पत्र को अनदेखा करें।",
+      "english_summary": "This is a final demand notice from State Bank of Citizens for an overdue home loan balance. Two monthly EMIs are unpaid, totalling Rs. 38,450 including late penalty charges. If the amount is not paid by 15 October 2026, the bank warns it will classify the loan as a Non-Performing Asset and initiate recovery under the SARFAESI Act 2002, and report the default to credit bureaus.",
+      "official_english_reply": "Dear Sir/Madam,\n\nRe: Outstanding balance in Home Loan Account No. 4092837419 — Ref. SBC/LOAN-REC/2026/0942\n\nWe acknowledge receipt of your notice regarding the overdue balance in the above loan account.\n\nWe are arranging to remit the outstanding amount of Rs. 38,450.00, inclusive of late penalty charges, and request you to confirm receipt of the same. We also request a consolidated statement of the account showing the principal, interest and penalty breakup, along with the details of any further interest accruing after the date of payment.\n\nPlease treat this letter as our formal acknowledgement and confirm that our account will not be reported as a defaulter to any credit bureau once the dues are cleared.\n\nThank you for your cooperation.\n\nYours faithfully,\n[YOUR NAME]\n[YOUR ADDRESS]\n[YOUR LOAN ACCOUNT NUMBER]\n[DATE]"
+    },
+    "ta": {
+      "is_readable": true,
+      "quality_issue": null,
+      "document_type": "Bank loan recovery notice",
+      "urgency_level": "High",
+      "key_deadline": "15 October 2026",
+      "local_summary": "இது ஸ்டேட் பாங்க் ஆஃப் சிட்டிஸன்ஸ் அனுப்பிய உங்கள் வீட்டுக் கடனுக்கான இறுதி வசூல் அறிவிப்பு. கடந்த 2 மாத கட்டணம் நிலுவையாக உள்ளது, மொத்தம் 38,450 ரூபாய், அதில் தாமதக் கட்டணமும் சேர்த்து. 15 அக்டோபர் 2026 அன்றுக்குள் இந்தப் பணத்தைச் செலுத்த வேண்டும். செலுத்தாவிட்டால் பாங்க் உங்கள் கடனைச் செயலற்ற கடனாக அறிவித்து, சர்ஃபேசி சட்டத்தின் கீழ் சட்ட நடவடிக்கை எடுக்கும், மேலும் கடன் அறிக்கை அலுவல்களுக்கும் தெரிவிக்கும். கடந்த 48 மணிநேரத்தில் பணம் செலுத்திவிட்டிருந்தால் இந்தக் கடிதத்தைப் புறக்கணிக்கவும்.",
+      "english_summary": "This is a final demand notice from State Bank of Citizens for an overdue home loan balance. Two monthly EMIs are unpaid, totalling Rs. 38,450 including late penalty charges. If the amount is not paid by 15 October 2026, the bank warns it will classify the loan as a Non-Performing Asset and initiate recovery under the SARFAESI Act 2002, and report the default to credit bureaus.",
+      "official_english_reply": "Dear Sir/Madam,\n\nRe: Outstanding balance in Home Loan Account No. 4092837419 — Ref. SBC/LOAN-REC/2026/0942\n\nWe acknowledge receipt of your notice regarding the overdue balance in the above loan account.\n\nWe are arranging to remit the outstanding amount of Rs. 38,450.00, inclusive of late penalty charges, and request you to confirm receipt of the same. We also request a consolidated statement of the account showing the principal, interest and penalty breakup, along with the details of any further interest accruing after the date of payment.\n\nPlease treat this letter as our formal acknowledgement and confirm that our account will not be reported as a defaulter to any credit bureau once the dues are cleared.\n\nThank you for your cooperation.\n\nYours faithfully,\n[YOUR NAME]\n[YOUR ADDRESS]\n[YOUR LOAN ACCOUNT NUMBER]\n[DATE]"
+    },
+    "mr": {
+      "is_readable": true,
+      "quality_issue": null,
+      "document_type": "Bank loan recovery notice",
+      "urgency_level": "High",
+      "key_deadline": "15 October 2026",
+      "local_summary": "हे स्टेट बँक ऑफ सिटीझन्सकडून तुमच्या घराच्या कर्जासाठी पाठवलेले अंतिम वसूली नोटीस आहे. मागील 2 महिन्यांचे EMI थकबाकीत आहे, एकूण 38,450 रुपये, त्यात उशीराचा दंडही समाविष्ट आहे. 15 ऑक्टोबर 2026 पर्यंत ही रक्कम जमा करणे आवश्यक आहे. रक्कम जमा न केल्यास बँक तुमचे कर्ज बंगळ्याचे घोषित करून सरफासी कायद्याअंतर्गत कारवाई करेल आणि क्रेडिट ब्युरोलाही कळवेल. मागील 48 तासांत पैसे भरले असतील तर हे पत्र अनदेखा करा.",
+      "english_summary": "This is a final demand notice from State Bank of Citizens for an overdue home loan balance. Two monthly EMIs are unpaid, totalling Rs. 38,450 including late penalty charges. If the amount is not paid by 15 October 2026, the bank warns it will classify the loan as a Non-Performing Asset and initiate recovery under the SARFAESI Act 2002, and report the default to credit bureaus.",
+      "official_english_reply": "Dear Sir/Madam,\n\nRe: Outstanding balance in Home Loan Account No. 4092837419 — Ref. SBC/LOAN-REC/2026/0942\n\nWe acknowledge receipt of your notice regarding the overdue balance in the above loan account.\n\nWe are arranging to remit the outstanding amount of Rs. 38,450.00, inclusive of late penalty charges, and request you to confirm receipt of the same. We also request a consolidated statement of the account showing the principal, interest and penalty breakup, along with the details of any further interest accruing after the date of payment.\n\nPlease treat this letter as our formal acknowledgement and confirm that our account will not be reported as a defaulter to any credit bureau once the dues are cleared.\n\nThank you for your cooperation.\n\nYours faithfully,\n[YOUR NAME]\n[YOUR ADDRESS]\n[YOUR LOAN ACCOUNT NUMBER]\n[DATE]"
+    }
+  },
+  "electricity": {
+    "bn": {
+      "is_readable": true,
+      "quality_issue": null,
+      "document_type": "Electricity disconnection notice",
+      "urgency_level": "Medium",
+      "key_deadline": "25 October 2026",
+      "local_summary": "এটি পশ্চিমবঙ্গ রাজ্য বিদ্যুৎ বিতরণ কোম্পানির কাছ থেকে আপনার বিদ্যুৎ সংযোগ বিচ্ছিন্নের নোটিশ। জুলাই-আগস্ট ২০২৬ মাসের বিলের জন্য ৪,২১০ টাকা বাকি আছে, যার মধ্যে ২৯০ টাকা দেরির জরিমানা আছে। ২৫ অক্টোবর ২০২৬ বিকেল ৫টার মধ্যে টাকা দিতে হবে। সময়মতো টাকা না দিলে বিদ্যুৎ আইন ২০০৩-এর ধারা ৫৬(১) অনুযায়ী কোনো আগের সতর্কবার্তা ছাড়াই সংযোগ বিচ্ছিন্ন করা হবে। সংযোগ ফেরত পেতে আরও ৫০০ টাকা রিংকানেকশন চার্জ লাগবে।",
+      "english_summary": "This is a disconnection notice from West Bengal State Electricity Distribution Company Ltd. for unpaid charges of Rs. 4,210.00 for the July-August 2026 billing cycle, which includes a late payment surcharge of Rs. 290.00. Supply will be disconnected under Section 56(1) of the Electricity Act 2003 if payment is not received by 5:00 PM on 25 October 2026, and reconnection charges of Rs. 500 will apply.",
+      "official_english_reply": "Dear Sir/Madam,\n\nRe: Notice of Intended Disconnection — Consumer ID 102938475, Meter No. M-774910 — Ref. WBSEDCL/REV/DISC/4810\n\nWe acknowledge receipt of your notice regarding the outstanding electricity charges of Rs. 4,210.00 for the billing cycle July-August 2026.\n\nPayment of the aforesaid amount has been initiated and we request you to confirm its credit to our account. We request you to kindly consider the delay and waive the late payment surcharge of Rs. 290.00, as the delay was not intentional.\n\nPlease also confirm that our electricity connection will not be disconnected pending the credit of payment, and provide the details of any reconnection charges that may apply thereafter.\n\nThank you for your cooperation.\n\nYours faithfully,\n[YOUR NAME]\n[YOUR ADDRESS]\n[CONSUMER ID]\n[DATE]"
+    },
+    "hi": {
+      "is_readable": true,
+      "quality_issue": null,
+      "document_type": "Electricity disconnection notice",
+      "urgency_level": "Medium",
+      "key_deadline": "25 October 2026",
+      "local_summary": "यह पश्चिम बंगाल राज्य बिजली वितरण कंपनी की तरफ से आपके बिजली कनेक्शन काटने की नोटिस है। जुलाई-अगस्त 2026 के बिल का 4,210 रुपये बकाया है, जिसमें 290 रुपये देरी का जुर्माना शामिल है। 25 अक्टूबर 2026 को शाम 5 बजे तक भुगतान करना होगा। समय पर भुगतान न होने पर बिजली अधिनियम 2003 की धारा 56(1) के तहत बिना कोई पहले से सूचना दिए कनेक्शन काट दिया जाएगा। दोबारा जोड़ने के लिए 500 रुपये रीकनेक्शन चार्ज भी लगेगा।",
+      "english_summary": "This is a disconnection notice from West Bengal State Electricity Distribution Company Ltd. for unpaid charges of Rs. 4,210.00 for the July-August 2026 billing cycle, which includes a late payment surcharge of Rs. 290.00. Supply will be disconnected under Section 56(1) of the Electricity Act 2003 if payment is not received by 5:00 PM on 25 October 2026, and reconnection charges of Rs. 500 will apply.",
+      "official_english_reply": "Dear Sir/Madam,\n\nRe: Notice of Intended Disconnection — Consumer ID 102938475, Meter No. M-774910 — Ref. WBSEDCL/REV/DISC/4810\n\nWe acknowledge receipt of your notice regarding the outstanding electricity charges of Rs. 4,210.00 for the billing cycle July-August 2026.\n\nPayment of the aforesaid amount has been initiated and we request you to confirm its credit to our account. We request you to kindly consider the delay and waive the late payment surcharge of Rs. 290.00, as the delay was not intentional.\n\nPlease also confirm that our electricity connection will not be disconnected pending the credit of payment, and provide the details of any reconnection charges that may apply thereafter.\n\nThank you for your cooperation.\n\nYours faithfully,\n[YOUR NAME]\n[YOUR ADDRESS]\n[CONSUMER ID]\n[DATE]"
+    },
+    "ta": {
+      "is_readable": true,
+      "quality_issue": null,
+      "document_type": "Electricity disconnection notice",
+      "urgency_level": "Medium",
+      "key_deadline": "25 October 2026",
+      "local_summary": "இது மேற்கு வங்க மாநில மின்வாரிய விநியோக நிறுவனம் அனுப்பிய உங்கள் மின் இணைப்பு துண்டிப்பு அறிவிப்பு. ஜூலை-ஆகஸ்ட் 2026 கட்டணத்திற்கு 4,210 ரூபாய் நிலுவையாக உள்ளது, அதில் 290 ரூபாய் தாமதக் கட்டணம் சேர்த்து. 25 அக்டோபர் 2026 மாலை 5 மணிக்குள் பணம் செலுத்த வேண்டும். காலத்தில் பணம் செலுத்தாவிட்டால் மின்சார சட்டம் 2003-ன் பிரிவு 56(1) படி முன்கூட்டிய அறிவிப்பின்றி உங்கள் இணைப்பு துண்டிக்கப்படும். மீண்டும் இணைக்க 500 ரூபாய் மீண்டுஇணைப்புக் கட்டணமும் சேர்க்கப்படும்.",
+      "english_summary": "This is a disconnection notice from West Bengal State Electricity Distribution Company Ltd. for unpaid charges of Rs. 4,210.00 for the July-August 2026 billing cycle, which includes a late payment surcharge of Rs. 290.00. Supply will be disconnected under Section 56(1) of the Electricity Act 2003 if payment is not received by 5:00 PM on 25 October 2026, and reconnection charges of Rs. 500 will apply.",
+      "official_english_reply": "Dear Sir/Madam,\n\nRe: Notice of Intended Disconnection — Consumer ID 102938475, Meter No. M-774910 — Ref. WBSEDCL/REV/DISC/4810\n\nWe acknowledge receipt of your notice regarding the outstanding electricity charges of Rs. 4,210.00 for the billing cycle July-August 2026.\n\nPayment of the aforesaid amount has been initiated and we request you to confirm its credit to our account. We request you to kindly consider the delay and waive the late payment surcharge of Rs. 290.00, as the delay was not intentional.\n\nPlease also confirm that our electricity connection will not be disconnected pending the credit of payment, and provide the details of any reconnection charges that may apply thereafter.\n\nThank you for your cooperation.\n\nYours faithfully,\n[YOUR NAME]\n[YOUR ADDRESS]\n[CONSUMER ID]\n[DATE]"
+    },
+    "mr": {
+      "is_readable": true,
+      "quality_issue": null,
+      "document_type": "Electricity disconnection notice",
+      "urgency_level": "Medium",
+      "key_deadline": "25 October 2026",
+      "local_summary": "हे पश्चिम बंगाल राज्य वीज वितरण कंपनीकडून तुमच्या वीज जोडणी तोडण्याचे नोटीस आहे. जुलै-ऑगस्ट 2026 च्या बिलाचे 4,210 रुपये थकबाकीत आहेत, त्यात 290 रुपये उशीराचा दंड समाविष्ट आहे. 25 ऑक्टोबर 2026 रोजी सायं 5 वाजेपर्यंत पैसे भरणे आवश्यक आहे. वेळेत भुगतान न झाल्यास वीज कायदा 2003 च्या कलम 56(1) अनुसार पूर्वसूचना न देताच जोडणी तोडली जाईल. पुन्हा जोडणीसाठी अधिक 500 रुपये पुन्हाजोडणी शुल्क लागेल.",
+      "english_summary": "This is a disconnection notice from West Bengal State Electricity Distribution Company Ltd. for unpaid charges of Rs. 4,210.00 for the July-August 2026 billing cycle, which includes a late payment surcharge of Rs. 290.00. Supply will be disconnected under Section 56(1) of the Electricity Act 2003 if payment is not received by 5:00 PM on 25 October 2026, and reconnection charges of Rs. 500 will apply.",
+      "official_english_reply": "Dear Sir/Madam,\n\nRe: Notice of Intended Disconnection — Consumer ID 102938475, Meter No. M-774910 — Ref. WBSEDCL/REV/DISC/4810\n\nWe acknowledge receipt of your notice regarding the outstanding electricity charges of Rs. 4,210.00 for the billing cycle July-August 2026.\n\nPayment of the aforesaid amount has been initiated and we request you to confirm its credit to our account. We request you to kindly consider the delay and waive the late payment surcharge of Rs. 290.00, as the delay was not intentional.\n\nPlease also confirm that our electricity connection will not be disconnected pending the credit of payment, and provide the details of any reconnection charges that may apply thereafter.\n\nThank you for your cooperation.\n\nYours faithfully,\n[YOUR NAME]\n[YOUR ADDRESS]\n[CONSUMER ID]\n[DATE]"
+    }
+  },
+  "circular": {
+    "bn": {
+      "is_readable": true,
+      "quality_issue": null,
+      "document_type": "University convocation circular",
+      "urgency_level": "Low",
+      "key_deadline": "20 November 2026",
+      "local_summary": "এটি কলকাতা বিশ্ববিদ্যালয়ের কন্ট্রোলার অব এক্সামিনেশন্সের একটি সাধারণ বিজ্ঞপ্তি। ১৬৮ তম বার্ষিক সমাবেশ ডিসেম্বর ২০২৬ মাসে হবে। ২০২৫-২৬ শিক্ষাবর্ষে স্নাতক হওয়া শিক্ষার্থীদের ১ নভেম্বর থেকে ২০ নভেম্বর ২০২৬ পর্যন্ত বিশ্ববিদ্যালয়ের পোর্টালে অনলাইনে আবেদন করতে হবে। এরপর কোনো আবেদন গ্রহণ করা হবে না। যারা সমাবেশে অনুপস্থ থাকবেন, তাদের সার্টিফিকেট সমাবেশের পর ডাক চিঠিতে পাঠানো হবে।",
+      "english_summary": "This is a general circular from the Controller of Examinations, University of Calcutta, regarding the 168th Annual Convocation to be held in December 2026. Candidates who graduated in the academic year 2025-2026 must submit online applications with attested marksheet copies through the university portal between 01 November 2026 and 20 November 2026, as no application will be entertained after the closing date.",
+      "official_english_reply": "Dear Sir/Madam,\n\nRe: Submission of particulars for the 168th Annual Convocation 2026 — Circular No. CU/EXAM/CONVOC/2026/88\n\nWe acknowledge receipt of the above circular and confirm that we intend to apply for the 168th Annual Convocation through the University portal within the prescribed period.\n\nWe request you to kindly clarify whether attested copies of the marksheet are to be uploaded in PDF format, and the date from which the portal will remain accessible for candidates who are appearing in-absentia.\n\nKindly confirm the tentative date of the convocation ceremony and the last date for submission of absentia lists by our institution.\n\nThank you.\n\nYours faithfully,\n[YOUR NAME]\n[YOUR INSTITUTION / DEPARTMENT]\n[DATE]"
+    },
+    "hi": {
+      "is_readable": true,
+      "quality_issue": null,
+      "document_type": "University convocation circular",
+      "urgency_level": "Low",
+      "key_deadline": "20 November 2026",
+      "local_summary": "यह कलकत्ता विश्वविद्यालय के नियंत्रक परीक्षा का एक सामान्य परिपत्र है। 168वाँ वार्षिक समारोह दिसंबर 2026 में होगा। 2025-2026 शैक्षणिक वर्ष में स्नातक हुए छात्रों को 1 नवंबर से 20 नवंबर 2026 तक विश्वविद्यालय पोर्टल पर ऑनलाइन आवेदन करना होगा। इसके बाद कोई आवेदन स्वीकार नहीं किया जाएगा। जो छात्र समारोह में उपस्थित नहीं होंगे, उन्हें प्रमाणपत्र समारोह के बाद डाक से भेजे जाएंगे।",
+      "english_summary": "This is a general circular from the Controller of Examinations, University of Calcutta, regarding the 168th Annual Convocation to be held in December 2026. Candidates who graduated in the academic year 2025-2026 must submit online applications with attested marksheet copies through the university portal between 01 November 2026 and 20 November 2026, as no application will be entertained after the closing date.",
+      "official_english_reply": "Dear Sir/Madam,\n\nRe: Submission of particulars for the 168th Annual Convocation 2026 — Circular No. CU/EXAM/CONVOC/2026/88\n\nWe acknowledge receipt of the above circular and confirm that we intend to apply for the 168th Annual Convocation through the University portal within the prescribed period.\n\nWe request you to kindly clarify whether attested copies of the marksheet are to be uploaded in PDF format, and the date from which the portal will remain accessible for candidates who are appearing in-absentia.\n\nKindly confirm the tentative date of the convocation ceremony and the last date for submission of absentia lists by our institution.\n\nThank you.\n\nYours faithfully,\n[YOUR NAME]\n[YOUR INSTITUTION / DEPARTMENT]\n[DATE]"
+    },
+    "ta": {
+      "is_readable": true,
+      "quality_issue": null,
+      "document_type": "University convocation circular",
+      "urgency_level": "Low",
+      "key_deadline": "20 November 2026",
+      "local_summary": "இது கல்கத்தா பல்கலைக்கழகத்தின் பரீட்சைக் கட்டுப்பாட்டியின் பொதுவான சுற்றிதழ். 168ஆவது ஆண்டு விழா 2026 டிசம்பரில் நடைபெறும். 2025-2026 கல்வி ஆண்டில் பட்டம் பெற்ற மாணவர்கள் 1 நவம்பர் முதல் 20 நவம்பர் 2026 வரை பல்கலைக்கழக இணையதளத்தில் இணைய விண்ணப்பத்தைச் சமர்ப்பிக்க வேண்டும். அதற்குப் பிறகு எந்த விண்ணப்பமும் ஏற்கப்படாது. விழாவில் கலந்துகொள்ள முடியாதவர்களுக்கு சான்றிதழ்கள் விழாவுக்குப் பிறகு அஞ்சல் மூலம் அனுப்பப்படும்.",
+      "english_summary": "This is a general circular from the Controller of Examinations, University of Calcutta, regarding the 168th Annual Convocation to be held in December 2026. Candidates who graduated in the academic year 2025-2026 must submit online applications with attested marksheet copies through the university portal between 01 November 2026 and 20 November 2026, as no application will be entertained after the closing date.",
+      "official_english_reply": "Dear Sir/Madam,\n\nRe: Submission of particulars for the 168th Annual Convocation 2026 — Circular No. CU/EXAM/CONVOC/2026/88\n\nWe acknowledge receipt of the above circular and confirm that we intend to apply for the 168th Annual Convocation through the University portal within the prescribed period.\n\nWe request you to kindly clarify whether attested copies of the marksheet are to be uploaded in PDF format, and the date from which the portal will remain accessible for candidates who are appearing in-absentia.\n\nKindly confirm the tentative date of the convocation ceremony and the last date for submission of absentia lists by our institution.\n\nThank you.\n\nYours faithfully,\n[YOUR NAME]\n[YOUR INSTITUTION / DEPARTMENT]\n[DATE]"
+    },
+    "mr": {
+      "is_readable": true,
+      "quality_issue": null,
+      "document_type": "University convocation circular",
+      "urgency_level": "Low",
+      "key_deadline": "20 November 2026",
+      "local_summary": "हे कलकत्ता विद्यापीठाच्या परीक्षा नियंत्रकाचे एक सर्वसाधारण परितपत्र आहे. 168 व्या वार्षिक समोह डिसेंबर 2026 मध्ये होणार आहे. 2025-2026 या शैक्षणिक वर्षात पदवीधर झालेल्या विद्यार्थ्यांनी 1 नोव्हेंबर ते 20 नोव्हेंबर 2026 या कालावधीत विद्यापीठाच्या संकेतस्थळावरून ऑनलाइन अर्ज करणे आवश्यक आहे. यानंतर कोणताही अर्ज स्वीकारला जाणार नाही. जे विद्यार्थी समोहात उपस्थित राहणार नाहीत, त्यांना प्रमाणपत्रे समोहानंतर डाकेने पाठवली जातील.",
+      "english_summary": "This is a general circular from the Controller of Examinations, University of Calcutta, regarding the 168th Annual Convocation to be held in December 2026. Candidates who graduated in the academic year 2025-2026 must submit online applications with attested marksheet copies through the university portal between 01 November 2026 and 20 November 2026, as no application will be entertained after the closing date.",
+      "official_english_reply": "Dear Sir/Madam,\n\nRe: Submission of particulars for the 168th Annual Convocation 2026 — Circular No. CU/EXAM/CONVOC/2026/88\n\nWe acknowledge receipt of the above circular and confirm that we intend to apply for the 168th Annual Convocation through the University portal within the prescribed period.\n\nWe request you to kindly clarify whether attested copies of the marksheet are to be uploaded in PDF format, and the date from which the portal will remain accessible for candidates who are appearing in-absentia.\n\nKindly confirm the tentative date of the convocation ceremony and the last date for submission of absentia lists by our institution.\n\nThank you.\n\nYours faithfully,\n[YOUR NAME]\n[YOUR INSTITUTION / DEPARTMENT]\n[DATE]"
+    }
+  }
+}
