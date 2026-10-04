@@ -18,6 +18,9 @@ from gtts import gTTS
 from PIL import Image, ImageOps
 from pydantic import BaseModel, Field
 
+import hashlib
+import html
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 log = logging.getLogger("lipisetu")
 
@@ -224,3 +227,178 @@ def build_reply_pdf(analysis: DocumentAnalysis) -> bytes:
     pdf.multi_cell(0, 6, _pdf_safe(analysis.official_english_reply.strip()),
                    new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     return bytes(pdf.output())
+
+# ================= STEP 4: Streamlit UI =================
+COOLDOWN_SECONDS = 3
+
+URGENCY_UI = {
+    "High":   ("🔴 HIGH URGENCY",   "জরুরি",  st.error),
+    "Medium": ("🟠 MEDIUM URGENCY", "মাঝারি", st.warning),
+    "Low":    ("🟢 LOW URGENCY",    "সাধারণ", st.success),
+}
+
+RESULT_KEYS = ("analysis", "audio", "audio_error", "image_hash")
+
+
+def reset_results() -> None:
+    for key in RESULT_KEYS:
+        st.session_state.pop(key, None)
+
+
+def run_pipeline(raw: bytes) -> None:
+    """Image -> Gemma 4 -> (optional) audio. Stores everything in session_state."""
+    img, mime = prepare_image(raw)
+    analysis = analyze_document(img, mime)
+
+    audio, audio_error = None, None
+    if analysis.is_readable:
+        try:
+            audio = synthesize_bengali(analysis.bengali_summary)
+        except AudioError as e:           # degrade gracefully: text + PDF still work
+            audio_error = str(e)
+
+    st.session_state.update(
+        analysis=analysis,
+        audio=audio,
+        audio_error=audio_error,
+        image_hash=hashlib.sha256(raw).hexdigest(),
+    )
+
+
+def render_results(raw: bytes) -> None:
+    analysis: DocumentAnalysis = st.session_state["analysis"]
+    audio = st.session_state.get("audio")
+    audio_error = st.session_state.get("audio_error")
+
+    left, right = st.columns([1, 1.3], gap="large")
+
+    with left:
+        st.subheader("📄 Your document")
+        st.image(raw, use_container_width=True)
+        st.caption("Always compare the result with the original before acting.")
+
+    with right:
+        # --- Low-quality / not-a-document fallback ---
+        if not analysis.is_readable:
+            st.warning(
+                "**We couldn't read this document clearly.**\n\n"
+                f"Reason: {analysis.quality_issue or 'image quality too low'}\n\n"
+                "**Tips:** photograph the page flat, in good light, fill the frame, and hold steady."
+            )
+            return
+
+        # --- Urgency banner ---
+        badge, bn_label, box = URGENCY_UI[analysis.urgency_level]
+        deadline = analysis.key_deadline or "No deadline stated"
+        box(f"**{badge}** ({bn_label}) · {analysis.document_type}\n\n⏰ **Deadline:** {deadline}")
+
+        # --- Bengali summary + audio ---
+        st.markdown("#### 🗣️ বাংলায় সারাংশ")
+        st.markdown(
+            '<div style="font-size:1.15rem;line-height:1.9;padding:1rem 1.2rem;'
+            'border-radius:12px;border:1px solid rgba(128,128,128,.35);">'
+            f"{html.escape(analysis.bengali_summary)}</div>",
+            unsafe_allow_html=True,
+        )
+        if audio:
+            st.audio(audio, format="audio/mpeg")
+        else:
+            st.info(f"🔇 {audio_error or 'Audio not available.'} The text summary above is still complete.")
+
+        with st.expander("English summary"):
+            st.write(analysis.english_summary)
+
+        # --- Editable reply + PDF ---
+        st.markdown("#### ✉️ Official English reply (editable draft)")
+        edited = st.text_area(
+            "Reply draft",
+            value=analysis.official_english_reply,
+            height=320,
+            key=f"reply_{st.session_state['image_hash']}",   # new image => fresh text box
+            label_visibility="collapsed",
+        )
+        if re.search(r"\[[^\]]+\]", edited):
+            st.info("Fill in the **[placeholders]** (name, address, reference no.) before downloading.")
+
+        try:
+            pdf_bytes = build_reply_pdf(analysis.model_copy(update={"official_english_reply": edited}))
+            st.download_button(
+                "⬇️ Download reply as PDF",
+                data=pdf_bytes,
+                file_name="LipiSetu_reply.pdf",
+                mime="application/pdf",
+                type="primary",
+            )
+        except Exception:
+            log.exception("PDF build failed")
+            st.error("Could not create the PDF. You can still copy the text above.")
+
+        st.caption("⚠️ AI-generated draft, not legal or financial advice. Please review before sending.")
+
+
+def main() -> None:
+    st.set_page_config(page_title="LipiSetu AI", page_icon="🌉", layout="wide")
+    st.title("🌉 LipiSetu AI · লিপি সেতু")
+    st.caption("Understand any English document in Bengali. Reply in official English.")
+
+    with st.sidebar:
+        st.header("How it works")
+        st.markdown(
+            "1. Upload or photograph a notice, bill or letter\n"
+            "2. Get a simple **Bengali summary** and **audio**\n"
+            "3. Edit and download a ready **English reply (PDF)**"
+        )
+        st.divider()
+        st.caption(
+            "🔒 Your image is processed in memory for this session only. "
+            "We don't store documents. Avoid uploading ID numbers you don't need to share."
+        )
+
+    # Fail fast with a friendly message if the API key is missing.
+    try:
+        get_client()
+    except AnalysisError as e:
+        st.error(str(e))
+        st.stop()
+
+    # ---- Input ----
+    mode = st.radio("Input method", ["📁 Upload", "📷 Camera"], horizontal=True, label_visibility="collapsed")
+    raw: bytes | None = None
+    if mode == "📁 Upload":
+        f = st.file_uploader("Upload a document photo", type=["png", "jpg", "jpeg"])
+        raw = f.getvalue() if f else None
+    else:
+        shot = st.camera_input("Take a photo of the document")
+        raw = shot.getvalue() if shot else None
+
+    # New / removed image => clear stale results.
+    current_hash = hashlib.sha256(raw).hexdigest() if raw else None
+    if current_hash != st.session_state.get("image_hash"):
+        reset_results()
+
+    # ---- Analyze ----
+    if st.button("🔍 Analyze document", type="primary", disabled=raw is None):
+        now = time.time()
+        if now - st.session_state.get("last_call", 0) < COOLDOWN_SECONDS:
+            st.warning("Please wait a moment before trying again.")
+        else:
+            st.session_state["last_call"] = now
+            try:
+                with st.spinner("Reading your document… পড়া হচ্ছে…"):
+                    run_pipeline(raw)
+            except AnalysisError as e:
+                reset_results()
+                st.error(str(e))
+            except Exception:
+                log.exception("Unhandled pipeline failure")
+                reset_results()
+                st.error("Something went wrong on our side. Please try again.")
+
+    # ---- Output ----
+    if raw and "analysis" in st.session_state:
+        st.divider()
+        render_results(raw)
+
+
+if __name__ == "__main__":
+    main()
