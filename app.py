@@ -19,7 +19,7 @@ from fpdf.enums import XPos, YPos
 from google import genai
 from google.genai import errors, types
 from elevenlabs.client import ElevenLabs
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageOps
 from pydantic import BaseModel, Field
 
 __version__ = "1.3.0"
@@ -149,6 +149,9 @@ SUPPORTED_LANGUAGES: dict[str, dict[str, str]] = {
         "clear_details": "🧹 সব তথ্য মুছে ফেলুন",
         "reply_preview_label": "📄 চূড়ান্ত চিঠির প্রিভিউ (যা PDF-এ যাবে)",
         "non_latin_warning": "⚠️ PDF ইংরেজি ল্যাটিন অক্ষরে তৈরি হয়। ঘরগুলোতে ইংরেজি লিখুন, নয়তো PDF-এ অক্ষর উধাচিত হবে।",
+        "err_image_too_large": "⚠️ ছবির আকার {mb} MB-এর বেশি। ছোট ছবি আপলোড করুন।",
+        "err_image_unreadable": "⚠️ ফাইলটি ছবি হিসেবে খোলা গেল না। সঠিক ছবির ফাইল আপলোড করুন।",
+        "err_image_too_low": "⚠️ ছবির রেজোলিউশন পড়ার মতো কম। ভালো আলোয় কাছ থেকে ছবি তুলুন।",
     },
     "Hindi (हिन्दी)": {
         "code": "hi",
@@ -249,6 +252,9 @@ SUPPORTED_LANGUAGES: dict[str, dict[str, str]] = {
         "clear_details": "🧹 सारी जानकारी मिटाएँ",
         "reply_preview_label": "📄 अंतिम पत्र का पूर्वावलोकन (जो PDF में जाएगा)",
         "non_latin_warning": "⚠️ PDF अंग्रेज़ी लैटिन अक्षरों में बनता है। खानों में अंग्रेज़ी लिखें, वरना PDF में अक्षर बिगड़ जाएँगे।",
+        "err_image_too_large": "⚠️ छवि का आकार {mb} MB से अधिक है। छोटी छवि अपलोड करें।",
+        "err_image_unreadable": "⚠️ यह फ़ाइल छवि के रूप में नहीं खुल सकी। एक मान्य छवि फ़ाइल अपलोड करें।",
+        "err_image_too_low": "⚠️ छवि का रिज़ॉल्यूशन पढ़ने के लिए बहुत कम है। अच्छी रोशनी में पास से तस्वीर लें।",
     },
     "Tamil (தமிழ்)": {
         "code": "ta",
@@ -349,6 +355,9 @@ SUPPORTED_LANGUAGES: dict[str, dict[str, str]] = {
         "clear_details": "🧹 அனைத்து விவரங்களையும் அழி",
         "reply_preview_label": "📄 இறுதி கடிதத்தின் முன்னோட்டம் (PDF-இல் செல்லும்)",
         "non_latin_warning": "⚠️ PDF ஆங்கில லெட்டின் எழுத்துகளில் உருவாகிறது. களங்களில் ஆங்கிலத்தில் எழுதவும், இல்லையெனில் எழுத்துகள் சிதைந்து வரும்.",
+        "err_image_too_large": "⚠️ படத்தின் அளவு {mb} MB-ஐ விட அதிகம். சிறிய படத்தைப் பதிவேற்றவும்.",
+        "err_image_unreadable": "⚠️ இந்தக் கோப்பை படமாகத் திறக்க முடியவில்லை. சரியான படக் கோப்பைப் பதிவேற்றவும்.",
+        "err_image_too_low": "⚠️ படத்தின் தரம் படிக்கக்கூடியதாக இல்லை. நல்ல வெளிச்சத்தில் அருகில் எடுத்த புகைப்படத்தைப் பதிவேற்றவும்.",
     },
     "Marathi (मराठी)": {
         "code": "mr",
@@ -449,6 +458,9 @@ SUPPORTED_LANGUAGES: dict[str, dict[str, str]] = {
         "clear_details": "🧹 सर्व माहिती पुसा",
         "reply_preview_label": "📄 अंतिम पत्राचा पूर्वदर्शन (जे PDF मध्ये जाईल)",
         "non_latin_warning": "⚠️ PDF इंग्रजी लॅटिन अक्षरांत तयार होतो. रिकाम्या जागांत इंग्रजी लिहा, नाहीतर PDF मध्ये अक्षर बिघडतील.",
+        "err_image_too_large": "⚠️ प्रतिमेचा आकार {mb} MB पेक्षा जास्त आहे. लहान प्रतिमा अपलोड करा.",
+        "err_image_unreadable": "⚠️ हे फाइल प्रतिमा म्हणून उघडता आली नाही. वैध प्रतिमा फाइल अपलोड करा.",
+        "err_image_too_low": "⚠️ प्रतिमेचा रिझोल्यूशन वाचण्यास खूप कमी आहे. चांगल्या प्रकाशात जवळून फोटो घ्या.",
     },
 }
 
@@ -518,19 +530,33 @@ def get_client() -> genai.Client:
     return genai.Client(api_key=key, http_options=types.HttpOptions(timeout=API_TIMEOUT_MS))
 
 
-def prepare_image(raw: bytes) -> tuple[bytes, str]:
-    """Validate, orient, downscale, and re-encode. Returns (jpeg_bytes, mime_type)."""
+_IMAGE_ERROR_FALLBACK = {
+    "err_image_too_large": "Image is larger than {mb} MB. Please upload a smaller photo.",
+    "err_image_unreadable": "Could not open this file as an image. Please upload a valid image file.",
+    "err_image_too_low": "Image resolution is too low to read. Please retake the photo closer and in good light.",
+}
+
+
+def prepare_image(raw: bytes, lang_cfg: dict[str, str] | None = None) -> tuple[bytes, str]:
+    """Validate, orient, downscale, and re-encode. Returns (jpeg_bytes, mime_type).
+
+    ``lang_cfg`` localises the validation errors; omit it to fall back to English.
+    """
+    tr = (lambda key, **kw: lang_cfg.get(key, _IMAGE_ERROR_FALLBACK[key]).format(**kw)) if lang_cfg else (
+        lambda key, **kw: _IMAGE_ERROR_FALLBACK[key].format(**kw)
+    )
+
     if len(raw) > MAX_UPLOAD_MB * 1024 * 1024:
-        raise AnalysisError(f"Image is larger than {MAX_UPLOAD_MB} MB. Please upload a smaller photo.")
+        raise AnalysisError(tr("err_image_too_large", mb=MAX_UPLOAD_MB))
     try:
         img = Image.open(io.BytesIO(raw))
         img.load()
     except Exception:
-        raise AnalysisError("Could not open this file as an image. Please upload a valid image file.") from None
+        raise AnalysisError(tr("err_image_unreadable")) from None
 
     img = ImageOps.exif_transpose(img).convert("RGB")   # fixes sideways phone photos
     if min(img.size) < MIN_IMAGE_SIDE:
-        raise AnalysisError("Image resolution is too low to read. Please retake the photo closer and in good light.")
+        raise AnalysisError(tr("err_image_too_low"))
 
     img.thumbnail((MAX_IMAGE_SIDE, MAX_IMAGE_SIDE))
     buf = io.BytesIO()
@@ -1457,9 +1483,20 @@ def fill_placeholders(text: str, values: dict[str, str]) -> str:
 
 
 def has_non_latin1(text: str) -> bool:
-    """True if any character cannot survive the PDF's Latin-1 core font."""
-    probe = _pdf_safe(text)
-    return "?" in probe
+    """True if any character cannot survive the PDF's Latin-1 core font.
+
+    Checks encodability per character rather than looking for the "?" that
+    _pdf_safe substitutes, so a genuine question mark is not misreported.
+    Characters in _PDF_REPLACEMENTS (en dash, rupee sign, ...) are fine.
+    """
+    for char in text:
+        if char in _PDF_REPLACEMENTS:
+            continue
+        try:
+            char.encode("latin-1")
+        except UnicodeEncodeError:
+            return True
+    return False
 
 
 def render_results(raw: bytes, lang_cfg: dict[str, str]) -> None:
@@ -1511,7 +1548,10 @@ def render_results(raw: bytes, lang_cfg: dict[str, str]) -> None:
                 st.audio(audio, format="audio/mpeg")
                 st.markdown('</div>', unsafe_allow_html=True)
             else:
-                st.info(f"🔇 {audio_error or lang_cfg['audio_unavailable']}")
+                # Show a localized message; keep the raw API text in the log only.
+                if audio_error:
+                    log.info("Audio unavailable: %s", audio_error)
+                st.info(f"🔇 {lang_cfg['audio_unavailable']}")
 
             # Quick Takeaways Box
             urgency_action = lang_cfg["urgency_action_high"] if analysis.urgency_level == "High" else lang_cfg["urgency_action_other"]
@@ -1767,6 +1807,7 @@ def main() -> None:
     )
 
     raw: bytes | None = None
+    sample_key: str | None = None  # only set in sample mode; read only when demo_mode
 
     if mode == "upload":
         f = st.file_uploader(
@@ -1793,7 +1834,7 @@ def main() -> None:
     demo_mode = mode == "sample"
 
     if demo_mode:
-        st.info(f"{lang_cfg['demo_badge']}", icon="🌐")
+        st.info(lang_cfg["demo_badge"])
     else:
         # Fail fast with a friendly message if the API key is missing.
         try:
@@ -1841,7 +1882,7 @@ def main() -> None:
                 try:
                     with st.status(lang_cfg["analyzing"], expanded=True) as status:
                         st.write(lang_cfg["status_inspecting"])
-                        img, mime = prepare_image(raw)
+                        img, mime = prepare_image(raw, lang_cfg)
                         st.write(lang_cfg["status_reading"].format(lang=lang_cfg["native_name"]))
                         analysis = analyze_document(
                             img, mime,
