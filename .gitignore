@@ -1,13 +1,4 @@
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-dist/
-*.egg-info/
-.venv/
-venv/
-env/
-.env
 .streamlit/secrets.toml
+.env
+__pycache__/
+venv/
