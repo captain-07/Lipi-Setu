@@ -7,6 +7,9 @@ font = "sans serif"
 
 [server]
 maxUploadSize = 5
+# Serves ./static at /app/static — used for the self-hosted UI fonts so the
+# interface renders correctly with no internet connection.
+enableStaticServing = true
 
 [client]
 toolbarMode = "minimal"
